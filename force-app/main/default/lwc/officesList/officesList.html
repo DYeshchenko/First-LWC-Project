@@ -1,0 +1,80 @@
+<template>
+  <lightning-card title="Offices List" icon-name="custom:custom24">
+    <template if:true={offices}>
+      <template iterator:office={offices}>
+        <div
+          key={office.value.id}
+          class="slds-grid slds-gutters slds-m-around_xx-small"
+        >
+          <div class="slds-col slds-size_1-of-4 slds-m-around_xxx-small">
+            <h1
+              if:true={office.first}
+              class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-m-left_x-large"
+            >
+              Name
+            </h1>
+
+            <a office_id={office.value.id} onclick={navigateToRecordViewPage}>
+              {office.value.fields.Name.value}
+            </a>
+          </div>
+
+          <div class="slds-size_2-of-4 slds-m-around_xxx-small">
+            <h1
+              if:true={office.first}
+              class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-m-left_x-large"
+            >
+              Address
+            </h1>
+
+            {office.value.fields.Address__c.value}
+          </div>
+
+          <div class="slds-size_2-of-4 slds-m-around_xxx-small">
+            <h1
+              if:true={office.first}
+              class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-m-left_x-large"
+            >
+              Total Area
+            </h1>
+
+            {office.value.totalArea}
+          </div>
+        </div>
+      </template>
+
+      <template if:false={isOnePage}>
+        <div class="slds-m-around_medium slds-align_absolute-center">
+          <lightning-button-icon
+            class="slds-col slds-align_absolute-center"
+            icon-name="utility:back"
+            alternative-text="Previous"
+            title="Previous"
+            variant="border-filled"
+            onclick={handlePreviousPage}
+          ></lightning-button-icon>
+
+          <lightning-button-icon
+            class="slds-col slds-align_absolute-center"
+            icon-name="utility:forward"
+            alternative-text="Next"
+            title="Next"
+            variant="border-filled"
+            onclick={handleNextPage}
+          ></lightning-button-icon>
+        </div>
+      </template>
+    </template>
+
+    <template if:true={errorList}>
+      <div class="slds-text-color_error">
+        An error occurred in the wire adapter "getListUi":<br />{errorOfficesList.body.message}
+      </div>
+    </template>
+    <template if:true={errorApex}>
+      <div class="slds-text-color_error">
+        An error occurred in the Apex method "getAllOfficeRoomsAreas":<br />{errorRoomsList.body.message}
+      </div>
+    </template>
+  </lightning-card>
+</template>

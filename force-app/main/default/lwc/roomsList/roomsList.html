@@ -1,0 +1,82 @@
+<template>
+  <lightning-card title="Rooms List" icon-name="custom:custom18">
+    <template if:true={officeRooms.data}>
+      <div class="slds-grid slds-gutters slds-m-around_xx-small slds-box slds-box_xx-small slds-has-bottom-magnet slds-has-top-magnet">
+        <div class={columnClass}>
+          <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
+            Number
+          </h1>
+        </div>
+
+        <div class={columnClass}>
+          <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
+            Area
+          </h1>
+        </div>
+
+        <div class={columnClass}>
+          <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
+            Capacity
+          </h1>
+        </div>
+
+        <div if:true={isManager} class={columnClass}>
+          <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
+            Reserved?
+          </h1>
+        </div>
+
+        <div if:true={isManager} class={columnClass}>
+          <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-align_absolute-center">
+            Change booking
+          </h1>
+        </div>
+      </div>
+
+      <template iterator:room={officeRooms.data}>
+        <div
+          key={room.value.Id}
+          class="slds-grid slds-gutters slds-m-around_xx-small slds-box slds-box_xx-small slds-has-bottom-magnet slds-has-top-magnet"
+        >
+          <div class={columnClass}>{room.value.Name}</div>
+
+          <div class={columnClass}>{room.value.Area__c}</div>
+
+          <div class={columnClass}>{room.value.Capacity__c}</div>
+
+          <div if:true={isManager} class={columnClass}>
+            <span if:true={room.value.Is_reserved__c}>Booked</span>
+            <span if:false={room.value.Is_reserved__c}>Free</span>
+          </div>
+
+          <div if:true={isManager} class={columnClass}>
+            <lightning-button
+              if:true={room.value.Is_reserved__c}
+              class="slds-align_absolute-center"
+              value={room.value.Id}
+              variant="destructive"
+              label={vacateButtonLabel}
+              title="Remove reservation from room"
+              onclick={handleClick}
+            ></lightning-button>
+            <lightning-button
+              if:false={room.value.Is_reserved__c}
+              class="slds-align_absolute-center"
+              value={room.value.Id}
+              variant="brand"
+              label={bookButtonLabel}
+              title="Book a room"
+              onclick={handleClick}
+            ></lightning-button>
+          </div>
+        </div>
+      </template>
+    </template>
+
+    <template if:true={officeRooms.error}>
+      <div class="slds-text-color_error">
+        Error:<br />{officeRooms.error.body.message}
+      </div>
+    </template>
+  </lightning-card>
+</template>
