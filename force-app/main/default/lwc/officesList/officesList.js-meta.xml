@@ -6,7 +6,18 @@
     <description>List of all offices.</description>
     <targets>
        <target>lightning__AppPage</target>
-       <target>lightning__RecordPage</target>
-       <target>lightning__HomePage</target>
    </targets>
+   <targetConfigs>
+      <targetConfig targets="lightning__AppPage">
+          <property 
+            name="pageSize"
+            type="Integer"
+            min="5"
+            max="50"
+            label="Page Size"
+            default="10"
+            required="true"
+            description="Enter the number of records to be displayed on the page at one time (from 5 to 50)."/>
+      </targetConfig>
+    </targetConfigs>
 </LightningComponentBundle>

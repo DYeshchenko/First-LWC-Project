@@ -1,4 +1,4 @@
-import { LightningElement, wire, track } from "lwc";
+import { LightningElement, api, wire, track } from "lwc";
 import { getListUi } from "lightning/uiListApi";
 import { NavigationMixin } from "lightning/navigation";
 
@@ -7,6 +7,7 @@ import OFFICE_ROOM_OBJECT from "@salesforce/schema/Office_Room__c";
 import OFFICE_NAME_FIELD from "@salesforce/schema/Office__c.Name";
 
 export default class OfficesList extends NavigationMixin(LightningElement) {
+  @api pageSize;
   pageToken = null;
   nextPageToken = null;
   previousPageToken = null;
@@ -21,7 +22,7 @@ export default class OfficesList extends NavigationMixin(LightningElement) {
     objectApiName: OFFICE_OBJECT,
     listViewApiName: "All",
     sortBy: OFFICE_NAME_FIELD,
-    pageSize: 10,
+    pageSize: "$pageSize",
     pageToken: "$pageToken"
   })
   getOfficesList({ error, data }) {
