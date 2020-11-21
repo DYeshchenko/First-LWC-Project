@@ -1,22 +1,22 @@
 <template>
-  <lightning-card title="Offices List" icon-name="custom:custom24">
+  <lightning-card title={label.LIST_LABEL} icon-name="custom:custom24">
     <template if:true={offices}>
       <div class="slds-grid slds-gutters slds-m-around_xx-small">
         <div class="slds-col slds-size_1-of-4">
           <h1 class="slds-text-title_bold slds-text-heading_small slds-m-left_small">
-            Name
+            {label.NAME_LABEL}
           </h1>
         </div>
 
         <div class="slds-col slds-size_2-of-4">
           <h1 class="slds-text-title_bold slds-text-heading_small slds-m-left_small">
-            Address
+            {label.ADDRESS_LABEL}
           </h1>
         </div>
         
         <div class="slds-col slds-size_1-of-4">
           <h1 class="slds-text-title_bold slds-text-heading_small slds-m-left_small">
-            Total Area
+            {label.TOTAL_AREA_LABEL}
           </h1>
         </div>
       </div>
@@ -47,8 +47,8 @@
           <lightning-button-icon
             class="slds-col slds-align_absolute-center"
             icon-name="utility:back"
-            alternative-text="Previous"
-            title="Previous"
+            alternative-text={label.PREVIOUS_LABEL}
+            title={label.PREVIOUS_LABEL}
             variant="border-filled"
             onclick={handlePreviousPage}
           ></lightning-button-icon>
@@ -56,8 +56,8 @@
           <lightning-button-icon
             class="slds-col slds-align_absolute-center"
             icon-name="utility:forward"
-            alternative-text="Next"
-            title="Next"
+            alternative-text={label.NEXT_LABEL}
+            title={label.NEXT_LABEL}
             variant="border-filled"
             onclick={handleNextPage}
           ></lightning-button-icon>
@@ -67,12 +67,13 @@
 
     <template if:true={errorList}>
       <div class="slds-text-color_error">
-        An error occurred in the wire adapter "getListUi":<br />{errorOfficesList.body.message}
+        {label.ERROR_LABEL}<br />{errorOfficesList.body.message}
       </div>
     </template>
+
     <template if:true={errorApex}>
       <div class="slds-text-color_error">
-        An error occurred in the Apex method "getAllOfficeRoomsAreas":<br />{errorRoomsList.body.message}
+        {label.ERROR_LABEL}<br />{errorRoomsList.body.message}
       </div>
     </template>
   </lightning-card>
