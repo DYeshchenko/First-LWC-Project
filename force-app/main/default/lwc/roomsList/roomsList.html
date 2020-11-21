@@ -1,34 +1,34 @@
 <template>
-  <lightning-card title="Rooms List" icon-name="custom:custom18">
+  <lightning-card title={label.ROOMS_LIST_LABEL} icon-name="custom:custom18">
     <template if:true={officeRooms.data}>
       <div class="slds-grid slds-gutters slds-m-around_xx-small slds-box slds-box_xx-small slds-has-bottom-magnet">
         <div class={columnClass}>
           <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
-            Number
+            {label.NUMBER_LABEL}
           </h1>
         </div>
 
         <div class={columnClass}>
           <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
-            Area
+            {label.AREA_LABEL}
           </h1>
         </div>
 
         <div class={columnClass}>
           <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
-            Capacity
+            {label.CAPACITY_LABEL}
           </h1>
         </div>
 
         <div if:true={isManager} class={columnClass}>
           <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
-            Reserved?
+            {label.RESERVED_LABEL}
           </h1>
         </div>
 
         <div if:true={isManager} class={columnClass}>
           <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-align_absolute-center">
-            Change booking
+            {label.CHANGE_BOOKING_LABEL}
           </h1>
         </div>
       </div>
@@ -45,27 +45,27 @@
           <div class={columnClass}>{room.Capacity__c}</div>
 
           <div if:true={isManager} class={columnClass}>
-            <span if:true={room.Is_reserved__c}>Booked</span>
-            <span if:false={room.Is_reserved__c}>Free</span>
+            <span if:true={room.Is_reserved__c}>{label.BOOKED_LABEL}</span>
+            <span if:false={room.Is_reserved__c}>{label.FREE_LABEL}</span>
           </div>
 
           <div if:true={isManager} class={columnClass}>
             <lightning-button
               if:true={room.Is_reserved__c}
               class="slds-align_absolute-center"
-              value={room.value.Id}
+              value={room.Id}
               variant="destructive"
               label={vacateButtonLabel}
-              title="Remove reservation from room"
+              title={UNBOOK_BUTTON_TITLE_LABEL}
               onclick={handleClick}
             ></lightning-button>
             <lightning-button
               if:false={room.Is_reserved__c}
               class="slds-align_absolute-center"
-              value={room.value.Id}
+              value={room.Id}
               variant="brand"
               label={bookButtonLabel}
-              title="Book a room"
+              title={BOOK_BUTTON_TITLE_LABEL}
               onclick={handleClick}
             ></lightning-button>
           </div>
@@ -75,7 +75,7 @@
 
     <template if:true={officeRooms.error}>
       <div class="slds-text-color_error">
-        Error:<br />{officeRooms.error.body.message}
+        {label.ERROR_LABEL}:<br />{officeRooms.error.body.message}
       </div>
     </template>
   </lightning-card>
