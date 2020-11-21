@@ -1,7 +1,7 @@
 <template>
   <lightning-card title="Rooms List" icon-name="custom:custom18">
     <template if:true={officeRooms.data}>
-      <div class="slds-grid slds-gutters slds-m-around_xx-small slds-box slds-box_xx-small slds-has-bottom-magnet slds-has-top-magnet">
+      <div class="slds-grid slds-gutters slds-m-around_xx-small slds-box slds-box_xx-small slds-has-bottom-magnet">
         <div class={columnClass}>
           <h1 class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small">
             Number
@@ -33,25 +33,25 @@
         </div>
       </div>
 
-      <template iterator:room={officeRooms.data}>
+      <template for:each={officeRooms.data} for:item="room">
         <div
-          key={room.value.Id}
+          key={room.Id}
           class="slds-grid slds-gutters slds-m-around_xx-small slds-box slds-box_xx-small slds-has-bottom-magnet slds-has-top-magnet"
         >
-          <div class={columnClass}>{room.value.Name}</div>
+          <div class={columnClass}>{room.Name}</div>
 
-          <div class={columnClass}>{room.value.Area__c}</div>
+          <div class={columnClass}>{room.Area__c}</div>
 
-          <div class={columnClass}>{room.value.Capacity__c}</div>
+          <div class={columnClass}>{room.Capacity__c}</div>
 
           <div if:true={isManager} class={columnClass}>
-            <span if:true={room.value.Is_reserved__c}>Booked</span>
-            <span if:false={room.value.Is_reserved__c}>Free</span>
+            <span if:true={room.Is_reserved__c}>Booked</span>
+            <span if:false={room.Is_reserved__c}>Free</span>
           </div>
 
           <div if:true={isManager} class={columnClass}>
             <lightning-button
-              if:true={room.value.Is_reserved__c}
+              if:true={room.Is_reserved__c}
               class="slds-align_absolute-center"
               value={room.value.Id}
               variant="destructive"
@@ -60,7 +60,7 @@
               onclick={handleClick}
             ></lightning-button>
             <lightning-button
-              if:false={room.value.Is_reserved__c}
+              if:false={room.Is_reserved__c}
               class="slds-align_absolute-center"
               value={room.value.Id}
               variant="brand"

@@ -1,50 +1,49 @@
 <template>
   <lightning-card title="Offices List" icon-name="custom:custom24">
     <template if:true={offices}>
-      <template iterator:office={offices}>
+      <div class="slds-grid slds-gutters slds-m-around_xx-small">
+        <div class="slds-col slds-size_1-of-4">
+          <h1 class="slds-text-title_bold slds-text-heading_small slds-m-left_small">
+            Name
+          </h1>
+        </div>
+
+        <div class="slds-col slds-size_2-of-4">
+          <h1 class="slds-text-title_bold slds-text-heading_small slds-m-left_small">
+            Address
+          </h1>
+        </div>
+        
+        <div class="slds-col slds-size_1-of-4">
+          <h1 class="slds-text-title_bold slds-text-heading_small slds-m-left_small">
+            Total Area
+          </h1>
+        </div>
+      </div>
+
+      <template for:each={offices} for:item="office">
         <div
-          key={office.value.id}
+          key={office.id}
           class="slds-grid slds-gutters slds-m-around_xx-small"
         >
-          <div class="slds-col slds-size_1-of-4 slds-m-around_xxx-small">
-            <h1
-              if:true={office.first}
-              class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-m-left_x-large"
-            >
-              Name
-            </h1>
-
-            <a office_id={office.value.id} onclick={navigateToRecordViewPage}>
-              {office.value.fields.Name.value}
+          <div class="slds-col slds-size_1-of-4 slds-m-vertical_xxx-small">
+            <a office_id={office.id} onclick={navigateToRecordViewPage}>
+              {office.fields.Name.value}
             </a>
           </div>
 
-          <div class="slds-size_2-of-4 slds-m-around_xxx-small">
-            <h1
-              if:true={office.first}
-              class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-m-left_x-large"
-            >
-              Address
-            </h1>
-
-            {office.value.fields.Address__c.value}
+          <div class="slds-col slds-size_2-of-4 slds-m-vertical_xxx-small">
+            {office.fields.Address__c.value}
           </div>
 
-          <div class="slds-size_2-of-4 slds-m-around_xxx-small">
-            <h1
-              if:true={office.first}
-              class="slds-m-bottom_x-small slds-text-title_bold slds-text-heading_small slds-m-left_x-large"
-            >
-              Total Area
-            </h1>
-
-            {office.value.totalArea}
+          <div class="slds-col slds-size_1-of-4 slds-m-vertical_xxx-small">
+            {office.totalArea}
           </div>
         </div>
       </template>
 
       <template if:false={isOnePage}>
-        <div class="slds-m-around_medium slds-align_absolute-center">
+        <div class="slds-m-vertical_medium slds-align_absolute-center">
           <lightning-button-icon
             class="slds-col slds-align_absolute-center"
             icon-name="utility:back"
