@@ -22,6 +22,10 @@ import VACATE_LABEL from "@salesforce/label/c.Vacate";
 import BOOK_BUTTON_TITLE_LABEL from "@salesforce/label/c.Book_Room_Button_Title";
 import UNBOOK_BUTTON_TITLE_LABEL from "@salesforce/label/c.Unbook_Room_Button_Title";
 import ERROR_LABEL from "@salesforce/label/c.Error";
+import UPDATE_ERROR_LABEL from "@salesforce/label/c.Error_updating_record";
+import SUCCESS_LABEL from "@salesforce/label/c.Success";
+import ROOM_BOOKED_LABEL from "@salesforce/label/c.Room_booked";
+import ROOM_VACATED_LABEL from "@salesforce/label/c.Room_vacated";
 
 export default class RoomsList extends LightningElement {
   label = {
@@ -33,18 +37,17 @@ export default class RoomsList extends LightningElement {
     CHANGE_BOOKING_LABEL,
     BOOKED_LABEL,
     FREE_LABEL,
-    ERROR_LABEL,
+    BOOK_LABEL,
+    VACATE_LABEL,
     BOOK_BUTTON_TITLE_LABEL,
-    UNBOOK_BUTTON_TITLE_LABEL
+    UNBOOK_BUTTON_TITLE_LABEL,
+    ERROR_LABEL
   }
 
   @api recordId;
 
   isManager;
   error;
-
-  bookButtonLabel = BOOK_LABEL;
-  vacateButtonLabel = VACATE_LABEL;
 
   @wire(getObjectInfo, { objectApiName: OFFICE_ROOM_OBJECT })
   getOfficeRoomObject({ error, data }) {
@@ -78,9 +81,9 @@ export default class RoomsList extends LightningElement {
     const butLabel = evt.target.label;
     let isReserved;
 
-    if (butLabel === this.bookButtonLabel) {
+    if (butLabel === BOOK_LABEL) {
       isReserved = true;
-    } else if (butLabel === this.vacateButtonLabel) {
+    } else if (butLabel === VACATE_LABEL) {
       isReserved = false;
     } else return;
 
@@ -91,11 +94,11 @@ export default class RoomsList extends LightningElement {
 
     updateRecord(recordInput)
       .then(() => {
-        const message = "Room " + (isReserved ? "booked" : "vacated");
+        const message = isReserved ? ROOM_BOOKED_LABEL : ROOM_VACATED_LABEL;
 
         this.dispatchEvent(
           new ShowToastEvent({
-            title: "Success",
+            title: SUCCESS_LABEL,
             message: message,
             variant: "success"
           })
@@ -106,7 +109,7 @@ export default class RoomsList extends LightningElement {
       .catch((error) => {
         this.dispatchEvent(
           new ShowToastEvent({
-            title: "Error updating record",
+            title: UPDATE_ERROR_LABEL,
             message: error.body.message,
             variant: "error"
           })
