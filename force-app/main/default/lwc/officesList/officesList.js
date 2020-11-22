@@ -3,7 +3,6 @@ import { getListUi } from "lightning/uiListApi";
 import { NavigationMixin } from "lightning/navigation";
 
 import OFFICE_OBJECT from "@salesforce/schema/Office__c";
-import OFFICE_ROOM_OBJECT from "@salesforce/schema/Office_Room__c";
 import OFFICE_NAME_FIELD from "@salesforce/schema/Office__c.Name";
 
 import LIST_LABEL from "@salesforce/label/c.Offices_List";
@@ -31,10 +30,7 @@ export default class OfficesList extends NavigationMixin(LightningElement) {
   previousPageToken = null;
 
   @track offices;
-  officeRooms;
-
-  errorOfficesList;
-  errorRoomsList;
+  error;
 
   @wire(getListUi, {
     objectApiName: OFFICE_OBJECT,
@@ -46,56 +42,12 @@ export default class OfficesList extends NavigationMixin(LightningElement) {
   getOfficesList({ error, data }) {
     if (data) {
       this.offices = data.records.records.slice();
-      this.errorOfficesList = undefined;
+      this.error = undefined;
       this.nextPageToken = data.records.nextPageToken;
       this.previousPageToken = data.records.previousPageToken;
-
-      if (this.officeRooms) {
-        this.setTotalArea();
-      } else {
-        this.setTotalAreaInRoomsWire = true;
-      }
     } else if (error) {
       this.offices = undefined;
-      this.errorOfficesList = error;
-    }
-  }
-
-  @wire(getListUi, {
-    objectApiName: OFFICE_ROOM_OBJECT,
-    listViewApiName: "All_Rooms_with_Area_and_Office"
-  })
-  getOfficeRooms({ error, data }) {
-    if (data) {
-      this.officeRooms = data.records.records;
-      this.errorRoomsList = undefined;
-
-      if (this.offices) {
-        this.setTotalArea();
-      }
-    } else if (error) {
-      this.officeRooms = undefined;
-      this.errorRoomsList = error;
-    }
-  }
-
-  setTotalArea() {
-    for (let office in this.offices) {
-      let totalArea = 0;
-
-      for (let room in this.officeRooms) {
-        if (
-          this.officeRooms[room].fields.Office__r.value.id ===
-            this.offices[office].id &&
-          this.officeRooms[room].fields.Area__c.value
-        ) {
-          totalArea += this.officeRooms[room].fields.Area__c.value;
-        }
-      }
-
-      this.offices[office] = Object.assign({}, this.offices[office], {
-        totalArea: `${totalArea}`
-      });
+      this.error = error;
     }
   }
 

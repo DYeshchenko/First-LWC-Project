@@ -37,7 +37,10 @@
           </div>
 
           <div class="slds-col slds-size_1-of-4 slds-m-vertical_xxx-small">
-            {office.totalArea}
+            <lightning-formatted-number
+              value={office.fields.Total_Area__c.value}
+              minimum-fraction-digits="1"
+            ></lightning-formatted-number>
           </div>
         </div>
       </template>
@@ -65,15 +68,9 @@
       </template>
     </template>
 
-    <template if:true={errorList}>
+    <template if:true={error}>
       <div class="slds-text-color_error">
-        {label.ERROR_LABEL}<br />{errorOfficesList.body.message}
-      </div>
-    </template>
-
-    <template if:true={errorApex}>
-      <div class="slds-text-color_error">
-        {label.ERROR_LABEL}<br />{errorRoomsList.body.message}
+        {label.ERROR_LABEL}<br />{error.body.message}
       </div>
     </template>
   </lightning-card>
